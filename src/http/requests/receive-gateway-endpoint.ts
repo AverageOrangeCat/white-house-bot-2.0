@@ -1,16 +1,6 @@
 import { DISCORD_API_URL, TOKEN } from "../../enviroment.ts";
+import { GatewayEndpoint } from "../../gateway/gateway-endpoint.ts";
 import { Status } from "../status.ts";
-
-export type GatewayEndpoint = {
-    url: string;
-    shards: number;
-    session_start_limit: {
-        total: number;
-        remaining: number;
-        reset_after: number;
-        max_concurrency: number;
-    };
-};
 
 export async function receiveGatewayEndpoint(): Promise<GatewayEndpoint> {
     const response = await fetch(`${DISCORD_API_URL}/gateway/bot`, {

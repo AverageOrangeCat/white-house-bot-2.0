@@ -4,7 +4,6 @@ import { HeartbeatService } from "./src/services/heartbeat-service.ts";
 import { GatewayOpcode } from "./src/gateway/gateway-opcode.ts";
 import { processHeartBeat } from "./src/gateway/events/process-heart-beat-event.ts";
 import { processHelloEvent } from "./src/gateway/events/process-hello-event.ts";
-import { GatewayMessage } from "./src/gateway/gateway-message.ts";
 
 if (import.meta.main) {
     const gatewayEndpoint = await receiveGatewayEndpoint();

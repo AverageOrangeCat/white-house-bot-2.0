@@ -1,6 +1,6 @@
 import { GatewayData } from "../gateway/gateway-data.ts";
+import { GatewayEndpoint } from "../gateway/gateway-endpoint.ts";
 import { GatewayMessage } from "../gateway/gateway-message.ts";
-import { GatewayEndpoint } from "../http/requests/receive-gateway-endpoint.ts";
 
 export class SocketService {
     private socket: WebSocket;

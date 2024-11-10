@@ -12,6 +12,7 @@ class HeartbeatWorker {
 
     public async start(socket: WebSocket, heartbeatInterval: number): Promise<void> {
         if (this.workerState === WorkerState.RUNNING) return;
+
         this.workerState = WorkerState.RUNNING;
 
         while (this.workerState === WorkerState.RUNNING) {
@@ -30,7 +31,6 @@ class HeartbeatWorker {
     }
 
     public stop(): void {
-        if (this.workerState === WorkerState.STOPPED) return;
         this.workerState = WorkerState.STOPPED;
     }
 }

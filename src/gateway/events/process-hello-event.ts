@@ -1,10 +1,10 @@
 import { TOKEN } from "../../enviroment.ts";
 import { Intents } from "../../intents.ts";
-import { sleep } from "../../utils/sleep.ts";
+import { heartbeatWorker } from "../../workers/heartbeat-worker.ts";
 import { GatewayMessage } from "../gateway-message.ts";
 import { GatewayOpcode } from "../gateway-opcode.ts";
 
-export async function processHelloEvent(socket: WebSocket, helloMessage: GatewayMessage<GatewayOpcode.HELLO>): Promise<void> {
+export function processHelloEvent(socket: WebSocket, helloMessage: GatewayMessage<GatewayOpcode.HELLO>): void {
     const heartbeatInterval = helloMessage.d.heartbeat_interval;
     const identifyMessage: GatewayMessage<GatewayOpcode.IDENTIFY> = {
         op: GatewayOpcode.IDENTIFY,
@@ -23,16 +23,5 @@ export async function processHelloEvent(socket: WebSocket, helloMessage: Gateway
 
     console.log("[ INFO ] Sent identification");
 
-    while (true) {
-        const heartbeatMessage: GatewayMessage<GatewayOpcode.HEART_BEAT> = {
-            op: GatewayOpcode.HEART_BEAT,
-            d: null,
-        };
-
-        socket.send(JSON.stringify(heartbeatMessage));
-
-        console.log("[ INFO ] Sent heart beat");
-        console.log(`[ INFO ]     - Next heart beat in ${heartbeatInterval} ms`);
-        await sleep(heartbeatInterval);
-    }
+    heartbeatWorker.start(socket, heartbeatInterval);
 }

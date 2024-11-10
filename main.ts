@@ -1,9 +1,5 @@
-import { processHeartBeatAckEvent } from "./src/gateway/events/process-heart-beat-ack-event.ts";
-import { processHeartBeat } from "./src/gateway/events/process-heart-beat-event.ts";
-import { processHelloEvent } from "./src/gateway/events/process-hello-event.ts";
-import { GatewayMessage } from "./src/gateway/gateway-message.ts";
-import { GatewayOpcode } from "./src/gateway/gateway-opcode.ts";
 import { receiveGatewayEndpoint } from "./src/http/requests/receive-gateway-endpoint.ts";
+import { socketWorker } from "./src/workers/socket-worker.ts";
 
 if (import.meta.main) {
     const gatewayEndpoint = await receiveGatewayEndpoint();
@@ -24,28 +20,5 @@ if (import.meta.main) {
         Deno.exit(1);
     }
 
-    const socket = new WebSocket(gatewayEndpoint.url);
-
-    socket.addEventListener("message", (message) => {
-        // deno-lint-ignore no-explicit-any
-        const gatewayMessage: GatewayMessage<any> = JSON.parse(message.data);
-
-        switch (gatewayMessage.op) {
-            case GatewayOpcode.HEART_BEAT:
-                processHeartBeat(socket, gatewayMessage);
-                break;
-
-            case GatewayOpcode.HELLO:
-                processHelloEvent(socket, gatewayMessage);
-                break;
-
-            case GatewayOpcode.HEART_BEAT_ACK:
-                processHeartBeatAckEvent(socket, gatewayMessage);
-                break;
-
-            default:
-                console.warn("[ WARNING ] An unspecified gateway request received");
-                console.warn(`[ WARNING ]     - Opcode: ${gatewayMessage.op}`);
-        }
-    });
+    socketWorker.start(gatewayEndpoint);
 }

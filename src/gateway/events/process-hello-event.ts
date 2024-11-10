@@ -1,11 +1,11 @@
 import { TOKEN } from "../../enviroment.ts";
 import { Intents } from "../../intents.ts";
 import { heartbeatWorker } from "../../workers/heartbeat-worker.ts";
+import { socketWorker } from "../../workers/socket-worker.ts";
 import { GatewayMessage } from "../gateway-message.ts";
 import { GatewayOpcode } from "../gateway-opcode.ts";
 
-export function processHelloEvent(socket: WebSocket, helloMessage: GatewayMessage<GatewayOpcode.HELLO>): void {
-    const heartbeatInterval = helloMessage.d.heartbeat_interval;
+export function processHelloEvent(helloMessage: GatewayMessage<GatewayOpcode.HELLO>): void {
     const identifyMessage: GatewayMessage<GatewayOpcode.IDENTIFY> = {
         op: GatewayOpcode.IDENTIFY,
         d: {
@@ -19,9 +19,9 @@ export function processHelloEvent(socket: WebSocket, helloMessage: GatewayMessag
         },
     };
 
-    socket.send(JSON.stringify(identifyMessage));
+    socketWorker.send(identifyMessage);
 
     console.log("[ INFO ] Sent identification");
 
-    heartbeatWorker.start(socket, heartbeatInterval);
+    heartbeatWorker.start(helloMessage.d.heartbeat_interval);
 }

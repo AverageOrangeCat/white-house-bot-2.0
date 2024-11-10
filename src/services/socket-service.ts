@@ -23,27 +23,12 @@ export class SocketService {
         });
     }
 
-    public onOpen(callback: (openEvent: Event) => void): void {
-        this.socket.addEventListener("open", (openEvent) => {
-            callback(openEvent);
-        });
-    }
-
-    public onClose(callback: (closeEvent: CloseEvent) => void): void {
-        this.socket.addEventListener("close", (closeEvent) => {
-            callback(closeEvent);
-        });
-    }
-
-    public onError(callback: (errorEvent: Event) => void): void {
-        this.socket.addEventListener("error", (errorEvent) => {
-            callback(errorEvent);
-        });
-    }
-
-    public onMessage(callback: (messageEvent: MessageEvent) => void): void {
+    // deno-lint-ignore no-explicit-any
+    public onMessage(callback: (gatewayMessage: GatewayMessage<any>) => void): void {
         this.socket.addEventListener("message", (messageEvent) => {
-            callback(messageEvent);
+            // deno-lint-ignore no-explicit-any
+            const gatewayMessage: GatewayMessage<any> = JSON.parse(messageEvent.data);
+            callback(gatewayMessage);
         });
     }
 
@@ -57,7 +42,7 @@ export class SocketService {
 
     public async restart(): Promise<void> {
         await this.stop();
-        
+
         this.socket = new WebSocket(this.gatewayEndpoint.url);
 
         await this.waitUntilOpen();

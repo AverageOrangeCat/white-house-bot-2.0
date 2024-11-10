@@ -28,10 +28,7 @@ if (import.meta.main) {
     const socketService = new SocketService(gatewayEndpoint);
     const heartbeatService = new HeartbeatService(socketService);
 
-    socketService.onMessage((messageEvent) => {
-        // deno-lint-ignore no-explicit-any
-        const gatewayMessage: GatewayMessage<any> = JSON.parse(messageEvent.data);
-
+    socketService.onMessage((gatewayMessage) => {
         switch (gatewayMessage.op) {
             case GatewayOpcode.HEART_BEAT:
                 processHeartBeat(gatewayMessage, socketService);

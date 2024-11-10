@@ -1,5 +1,10 @@
+import { SocketService } from "./src/services/socket-service.ts";
 import { receiveGatewayEndpoint } from "./src/http/requests/receive-gateway-endpoint.ts";
-import { socketWorker } from "./src/workers/socket-worker.ts";
+import { HeartbeatService } from "./src/services/heartbeat-service.ts";
+import { GatewayOpcode } from "./src/gateway/gateway-opcode.ts";
+import { processHeartBeat } from "./src/gateway/events/process-heart-beat-event.ts";
+import { processHelloEvent } from "./src/gateway/events/process-hello-event.ts";
+import { GatewayMessage } from "./src/gateway/gateway-message.ts";
 
 if (import.meta.main) {
     const gatewayEndpoint = await receiveGatewayEndpoint();
@@ -20,5 +25,29 @@ if (import.meta.main) {
         Deno.exit(1);
     }
 
-    socketWorker.start(gatewayEndpoint);
+    const socketService = new SocketService(gatewayEndpoint);
+    const heartbeatService = new HeartbeatService(socketService);
+
+    socketService.onMessage((messageEvent) => {
+        // deno-lint-ignore no-explicit-any
+        const gatewayMessage: GatewayMessage<any> = JSON.parse(messageEvent.data);
+
+        switch (gatewayMessage.op) {
+            case GatewayOpcode.HEART_BEAT:
+                processHeartBeat(gatewayMessage, socketService);
+                break;
+
+            case GatewayOpcode.HELLO:
+                processHelloEvent(gatewayMessage, socketService, heartbeatService);
+                break;
+
+            case GatewayOpcode.HEART_BEAT_ACK:
+                processHeartBeat(gatewayMessage, socketService);
+                break;
+
+            default:
+                console.warn("[ WARNING ] An unspecified gateway request received");
+                console.warn(`[ WARNING ]     - Opcode: ${gatewayMessage.op}`);
+        }
+    });
 }

@@ -1,8 +1,8 @@
 import { processHeartBeatAckEvent } from "./src/gateway/events/process-heart-beat-ack-event.ts";
 import { processHeartBeat } from "./src/gateway/events/process-heart-beat-event.ts";
 import { processHelloEvent } from "./src/gateway/events/process-hello-event.ts";
-import { GatewayOpcode } from "./src/gateway/gateway-opcode.ts";
 import { GatewayMessage } from "./src/gateway/gateway-message.ts";
+import { GatewayOpcode } from "./src/gateway/gateway-opcode.ts";
 import { receiveGatewayEndpoint } from "./src/http/requests/receive-gateway-endpoint.ts";
 
 if (import.meta.main) {

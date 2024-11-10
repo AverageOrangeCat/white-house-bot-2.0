@@ -1,8 +1,8 @@
 import { TOKEN } from "../../enviroment.ts";
-import { GatewayMessage } from "../gateway-message.ts";
-import { sleep } from "../../utils/sleep.ts";
-import { GatewayOpcode } from "../gateway-opcode.ts";
 import { Intents } from "../../intents.ts";
+import { sleep } from "../../utils/sleep.ts";
+import { GatewayMessage } from "../gateway-message.ts";
+import { GatewayOpcode } from "../gateway-opcode.ts";
 
 export async function processHelloEvent(socket: WebSocket, helloMessage: GatewayMessage<GatewayOpcode.HELLO>): Promise<void> {
     const heartbeatInterval = helloMessage.d.heartbeat_interval;

@@ -1,4 +1,4 @@
-import { TOKEN, DISCORD_API_URL } from "../../enviroment.ts";
+import { DISCORD_API_URL, TOKEN } from "../../enviroment.ts";
 import { Status } from "../status.ts";
 
 export type GatewayEndpoint = {

@@ -1,5 +1,5 @@
-import { GatewayOpcode } from "../gateway-opcode.ts";
 import { GatewayMessage } from "../gateway-message.ts";
+import { GatewayOpcode } from "../gateway-opcode.ts";
 
 export function processHeartBeat(socket: WebSocket, heartbeatMessage: GatewayMessage<GatewayOpcode.HEART_BEAT>): void {
     const lastSequence = heartbeatMessage.d;

@@ -2,11 +2,7 @@ import { GatewayMessage } from "../gateway/gateway-message.ts";
 import { GatewayOpcode } from "../gateway/gateway-opcode.ts";
 import { sleep } from "../utils/sleep.ts";
 import { socketWorker } from "./socket-worker.ts";
-
-enum WorkerState {
-    RUNNING = "RUNNING",
-    STOPPED = "STOPPED",
-}
+import { WorkerState } from "./worker-state.ts";
 
 class HeartbeatWorker {
     private workerState: WorkerState = WorkerState.STOPPED;

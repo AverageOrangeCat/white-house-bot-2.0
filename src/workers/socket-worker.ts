@@ -4,11 +4,7 @@ import { processHelloEvent } from "../gateway/events/process-hello-event.ts";
 import { GatewayMessage } from "../gateway/gateway-message.ts";
 import { GatewayOpcode } from "../gateway/gateway-opcode.ts";
 import { GatewayEndpoint } from "../http/requests/receive-gateway-endpoint.ts";
-
-enum WorkerState {
-    RUNNING = "RUNNING",
-    STOPPED = "STOPPED",
-}
+import { WorkerState } from "./worker-state.ts";
 
 class SocketWorker {
     private workerState: WorkerState = WorkerState.STOPPED;

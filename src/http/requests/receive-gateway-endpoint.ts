@@ -1,5 +1,5 @@
 import { DISCORD_API_URL, TOKEN } from "../../enviroment.ts";
-import { GatewayEndpoint } from "../../gateway/gateway-endpoint.ts";
+import { GatewayEndpoint } from "../responses/gateway-endpoint.ts";
 import { Status } from "../status.ts";
 
 export async function receiveGatewayEndpoint(): Promise<GatewayEndpoint> {

@@ -17,7 +17,7 @@ export enum GatewayOpcode {
      * Description: Fired periodically by the client to keep the connection alive.
      */
 
-    HEART_BEAT = 1,
+    HEARTBEAT = 1,
 
     /**
      * Client Action: Send
@@ -80,7 +80,7 @@ export enum GatewayOpcode {
      * Description: Sent in response to receiving a heartbeat to acknowledge that it has been received.
      */
 
-    HEART_BEAT_ACK = 11,
+    HEARTBEAT_ACK = 11,
 
     /**
      * Explanation: We're not sure what went wrong. Try reconnecting?

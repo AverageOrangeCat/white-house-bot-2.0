@@ -1,7 +1,7 @@
 import { GatewayOpcode } from "./gateway-opcode.ts";
 
 export type GatewayData = {
-    [GatewayOpcode.HEART_BEAT]: number | null;
+    [GatewayOpcode.HEARTBEAT]: number | null;
 
     [GatewayOpcode.IDENTIFY]: {
         token: string;
@@ -17,5 +17,5 @@ export type GatewayData = {
         heartbeat_interval: number;
     };
 
-    [GatewayOpcode.HEART_BEAT_ACK]: undefined;
+    [GatewayOpcode.HEARTBEAT_ACK]: undefined;
 };

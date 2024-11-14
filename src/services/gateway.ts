@@ -83,4 +83,4 @@ export async function stopGateway(): Promise<void> {
     await waitUntilStopped();
 }
 
-startGateway();
+await startGateway();
